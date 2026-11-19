@@ -17,3 +17,15 @@ live in the private repo.
 | `create-auction.png` | Seller's create-auction form |
 | `admin-panel.png` | Admin operations dashboard with an auction awaiting review |
 | `mobile-browse.png` / `mobile-auction.png` | 390 px wide mobile layout |
+
+Product photos in the demo listings are free stock images from
+[Pexels](https://www.pexels.com/license/), uploaded through the app's own media
+endpoint. Sources:
+[Land Rover](https://www.pexels.com/photo/30782256/),
+[record player](https://www.pexels.com/photo/8336013/),
+[sideboard](https://www.pexels.com/photo/5824530/),
+[painting](https://www.pexels.com/photo/5739358/),
+[camera](https://www.pexels.com/photo/16104735/),
+[mountain bike](https://www.pexels.com/photo/16082647/),
+[plates](https://www.pexels.com/photo/6611494/).
+The items, sellers and bids are fictional.
