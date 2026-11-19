@@ -132,5 +132,23 @@ The private codebase also includes:
 - **Media:** image uploads with type and size limits (max 6 per auction)
 - **Email:** async verification and notification emails on a bounded thread pool
 
-**TODO (you):** add a short section on the frontend: structure, how it consumes
-the WebSocket topics, and any state-management decisions.
+## Frontend
+
+React 18 single-page app built with Vite and styled with Tailwind CSS.
+
+| Concern | Choice |
+|---|---|
+| Server state | TanStack Query (caching, refetch on focus) |
+| Auth/session state | Zustand, persisted to `sessionStorage` (cleared when the tab closes) |
+| Forms | React Hook Form + Zod schemas |
+| HTTP | Axios with a JWT interceptor; a 401 clears the session |
+| Live updates | `webstomp-client` over SockJS, subscribed per auction page |
+| Motion | Framer Motion |
+
+Routes are split into public pages (browse, auction detail, legal, contact),
+signed-in pages (my bids, create auction, profile) and the admin console. The
+auction page subscribes to `/topic/auction/{id}` while open and shows a
+"Connected" badge for the socket state.
+
+**TODO (you):** add any frontend decisions you're proud of, such as how
+optimistic updates or reconnects are handled.

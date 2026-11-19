@@ -1,7 +1,6 @@
 # BidOu: a real-time auction platform
 
-> **TODO (you):** one-line pitch + a hero screenshot or GIF, e.g.
-> `![BidOu live bidding](docs/screenshots/live-bidding.gif)`
+![BidOu browse page](docs/screenshots/browse.png)
 
 BidOu is a real-time online auction platform supporting four auction formats
 (**Proxy, Dutch, Vickrey and Candle**) with live bid updates over WebSocket,
@@ -26,7 +25,7 @@ The complete source is available to review on request, or in a live walkthrough.
 |---|---|
 | **Backend** | Java 21, Spring Boot 3.2, Spring Security, Spring Data JPA, STOMP over WebSocket |
 | **Data** | PostgreSQL (JSONB for per-format settings), Redis (Redisson distributed locks) |
-| **Frontend** | **TODO (you):** framework, state management, WebSocket client |
+| **Frontend** | React 18, Vite, Tailwind CSS, TanStack Query, Zustand, React Hook Form + Zod, Framer Motion, STOMP over SockJS |
 | **Auth** | Stateless JWT, BCrypt, TOTP two-factor for admins, email verification |
 | **Ops** | Docker Compose, Spring Actuator + Prometheus metrics |
 | **Testing** | JUnit 5, Mockito, Testcontainers (real Postgres + Redis) |
@@ -117,9 +116,29 @@ threads against one auction and check it stays consistent.
 
 ## Screenshots
 
-> **TODO (you):** add images to [`docs/screenshots/`](docs/screenshots) and reference them here.
-> Suggested: auction list, live bidding with outbid toast, Dutch countdown,
-> Vickrey sealed-bid confirmation, admin dashboard, MFA setup.
+All data is fictional demo data, created through the real API by a seeding
+script (register → create → admin approval → bids), so every price and bid
+history below came from the bidding engine.
+
+**Proxy auction: a bidding war settled by automatic bids.** Aisha's max of
+R195k beat Lerato's R175k, and the price jumped straight to the R180k reserve.
+
+![Proxy auction with live bid feed](docs/screenshots/proxy-auction.png)
+
+| Dutch: price drops R250 every 30 s | Vickrey: sealed bid, second price |
+|---|---|
+| ![Dutch auction](docs/screenshots/dutch-auction.png) | ![Vickrey auction](docs/screenshots/vickrey-auction.png) |
+| **Candle: hidden end time** | **Admin console: review queue** |
+| ![Candle auction](docs/screenshots/candle-auction.png) | ![Admin panel](docs/screenshots/admin-panel.png) |
+| **My bids** | **Create an auction** |
+| ![My bids](docs/screenshots/my-bids.png) | ![Create auction](docs/screenshots/create-auction.png) |
+
+<p>
+  <img src="docs/screenshots/mobile-browse.png" alt="Mobile browse" width="240">
+  <img src="docs/screenshots/mobile-auction.png" alt="Mobile auction page" width="240">
+</p>
+
+> **TODO (you):** add a link to a 2–3 minute video walkthrough here.
 
 ## What I'd do next
 
