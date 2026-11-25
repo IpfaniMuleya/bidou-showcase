@@ -152,12 +152,29 @@ reachable on any service that decodes attacker-supplied Base64, such as
 bearer tokens. The concurrency tests above guarded the upgrade, and the
 app was then checked end to end.
 
-## What I'd do next
+## Roadmap
 
-- Replace Hibernate `ddl-auto=update` with Flyway migrations
-- Load-test bidding with Gatling to find the lock's throughput ceiling per auction
-- Move WebSocket fan-out to a Redis-backed broker so it scales past one instance
-- Let the current leader raise their own maximum (common on proxy auction sites)
+Known limitations, and why each one is next:
+
+- **Versioned schema migrations (Flyway).** The schema is still managed by
+  Hibernate's `ddl-auto=update`, plus a set of hand-written `ALTER TABLE`
+  statements that run at startup. That was fine while the data model was
+  changing daily, but it can't rename or drop safely and leaves no history.
+  Flyway makes every schema change a reviewed, versioned file.
+- **Load testing (Gatling).** The concurrency tests prove bids stay *correct*
+  under contention. They don't say how many bids per second one auction can
+  take, because the per-auction lock deliberately serialises them. A load
+  test would measure that ceiling, so it's known before a busy auction finds it.
+- **A shared WebSocket broker (Redis).** Bids are already safe across several
+  server instances, because the lock lives in Redis. Live updates aren't:
+  the in-memory STOMP broker only reaches users connected to the same
+  instance. Relaying through Redis fixes that. Together with moving uploaded
+  photos from local disk to shared storage, it's what stands between the app
+  and running more than one instance.
+- **Let the leader raise their own maximum.** Today the current leader is
+  blocked from bidding again, which keeps the proxy logic simple. Most proxy
+  auction sites allow it. Doing it right means raising the hidden maximum
+  without placing a visible bid against yourself.
 
 ## About
 
