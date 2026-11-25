@@ -114,7 +114,7 @@ Before fixing anything, I wrote a test that fails on the old code:
 @SpringBootTest
 @Testcontainers
 class ConcurrentBiddingIntegrationTest {
-    @Container static PostgreSQLContainer<?> postgres = new PostgreSQLContainer<>("postgres:16-alpine");
+    @Container static PostgreSQLContainer postgres = new PostgreSQLContainer("postgres:16-alpine"); // Testcontainers 2
     @Container static GenericContainer<?> redis = new GenericContainer<>("redis:7-alpine").withExposedPorts(6379);
 
     @Test
