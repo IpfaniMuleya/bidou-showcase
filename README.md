@@ -23,7 +23,7 @@ The complete source is available to review on request, or in a live walkthrough.
 
 | | |
 |---|---|
-| **Backend** | Java 21, Spring Boot 3.2, Spring Security, Spring Data JPA, STOMP over WebSocket |
+| **Backend** | Java 21, Spring Boot 4.1, Spring Security 7, Spring Data JPA (Hibernate 7), STOMP over WebSocket |
 | **Data** | PostgreSQL (JSONB for per-format settings), Redis (Redisson distributed locks) |
 | **Frontend** | React 18, Vite, Tailwind CSS, TanStack Query, Zustand, React Hook Form + Zod, Framer Motion, STOMP over SockJS |
 | **Auth** | Stateless JWT, BCrypt, TOTP two-factor for admins, email verification |
@@ -139,6 +139,19 @@ R195k beat Lerato's R175k, and the price jumped straight to the R180k reserve.
 </p>
 
 > **TODO (you):** add a link to a 2–3 minute video walkthrough here.
+
+## Keeping it patched
+
+In November 2026 I upgraded the platform from Spring Boot 3.2 to 4.1, after
+the 3.x line stopped receiving free security fixes. Scanning the runtime
+dependencies against [OSV.dev](https://osv.dev) took known advisories from
+**123 (13 critical) to 0**. At the same time I pinned the Java runtime to
+21.0.13.1, the first release that fixes
+[CVE-2026-114938 ("Java4Shell")](https://nvd.nist.gov/vuln/detail/CVE-2026-114938),
+a heap out-of-bounds write in the JIT-compiled Base64 decoder. That bug is
+reachable on any service that decodes attacker-supplied Base64, such as
+bearer tokens. The concurrency tests above guarded the upgrade, and the
+app was then checked end to end.
 
 ## What I'd do next
 
