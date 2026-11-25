@@ -15,7 +15,8 @@ private; this repo contains:
   model, extracted into a small, dependency-free Java 21 module that you can
   run with `mvn test`
 
-The complete source is available to review on request, or in a live walkthrough.
+The complete source is available to review on request, or in a live
+walkthrough; see [About](#about) for how to reach me.
 
 ---
 
@@ -138,8 +139,6 @@ R195k beat Lerato's R175k, and the price jumped straight to the R180k reserve.
   <img src="docs/screenshots/mobile-auction.png" alt="Mobile auction page" width="240">
 </p>
 
-> **TODO (you):** add a link to a 2–3 minute video walkthrough here.
-
 ## Keeping it patched
 
 In November 2026 I upgraded the platform from Spring Boot 3.2 to 4.1, after
@@ -162,4 +161,12 @@ app was then checked end to end.
 
 ## About
 
-**TODO (you):** your name, role you're looking for, LinkedIn / email.
+Built by **Ipfani Obedience Muleya**, founder of BidOu. I'm looking for a
+**full-stack engineer** role: I designed and built BidOu end to end, from the
+React frontend to the Spring Boot backend, the concurrency model and the
+Docker setup.
+
+- GitHub: [github.com/IpfaniMuleya](https://github.com/IpfaniMuleya)
+- LinkedIn: [linkedin.com/in/ipfanimuleya](https://www.linkedin.com/in/ipfanimuleya/)
+
+For a live walkthrough or to review the full source, message me on LinkedIn.

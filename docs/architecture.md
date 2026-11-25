@@ -150,5 +150,36 @@ signed-in pages (my bids, create auction, profile) and the admin console. The
 auction page subscribes to `/topic/auction/{id}` while open and shows a
 "Connected" badge for the socket state.
 
-**TODO (you):** add any frontend decisions you're proud of, such as how
-optimistic updates or reconnects are handled.
+### Live updates: fast, then correct
+
+When a bid message arrives, the auction page updates the price, bid count
+and end time straight from the message, so the change is instant. It then
+invalidates its TanStack Query cache, so the page re-fetches the auction
+from the REST API. The socket message gives speed and the server gives the
+final word, for example on who is currently winning. If a message is
+dropped, or two arrive out of order, the next re-fetch corrects the page.
+
+The bid feed de-duplicates by bid ID, because the same bid can arrive both
+over the socket and in the re-fetch, and it keeps the latest 20 entries. On
+Vickrey auctions the feed stays empty on purpose: sealed bids never reach
+other browsers.
+
+### No optimistic bids
+
+Placing a bid deliberately does **not** update the UI before the server
+answers. With proxy bidding the result depends on other people's hidden
+maximums: a bid can be instantly outbid by someone's automatic counter-bid.
+Showing "You're winning!" and then taking it back would be worse than a
+single round trip, so the page waits for the server's verdict.
+
+### One connection, self-healing
+
+- A single shared STOMP client is used by every page. A guard flag stops a
+  second connection from opening while one is mid-handshake, which matters
+  because React 18's StrictMode mounts components twice in development.
+- If the connection drops, it retries every 3 seconds, and the auction page
+  shows the socket state as a "Connected" badge.
+- Each page subscribes when it opens and unsubscribes when it closes, so
+  moving between auctions doesn't leak subscriptions.
+- An HTTP 401 from the API clears the session and sends the user to the
+  sign-in page, so an expired token never leaves the UI half signed in.
